@@ -154,7 +154,7 @@ def load_subagents(config_path: Path) -> list:
         "web_search": web_search,
     }
 
-    with open(config_path) as f:
+    with open(config_path, encoding='utf-8') as f:
         config = yaml.safe_load(f)
 
     subagents = []

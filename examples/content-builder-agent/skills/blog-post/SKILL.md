@@ -1,134 +1,140 @@
 ---
 name: blog-post
-description: Writes and structures long-form blog posts, creates tutorial outlines, and optimizes content for SEO with cover image generation. Use when the user asks to write a blog post, article, how-to guide, tutorial, technical writeup, thought leadership piece, or long-form content.
+description: 撰写并结构化长篇博客文章，创建教程大纲，并通过封面图生成优化 SEO 内容。当用户要求撰写博客文章、文章、使用指南、教程、技术文章、思想领导力文章或长篇内容时使用。
 ---
 
 # Blog Post Writing Skill
 
-## Research First (Required)
+## 优先进行研究（必需）
 
-**Before writing any blog post, you MUST delegate research:**
+**撰写任何博客文章之前，你必须先进行研究：**
 
-1. Use the `task` tool with `subagent_type: "researcher"`
-2. In the description, specify BOTH the topic AND where to save:
+1. 使用 `task` 工具，设置 `subagent_type: "researcher"`
+2. 在描述中同时指定主题、保存位置和素材收集要求：
 
 ```
 task(
     subagent_type="researcher",
-    description="Research [TOPIC]. Save findings to research/[slug].md"
+    description="研究 [主题]。将研究结果保存到 research/[slug].md。将搜索到的有价值的素材（如链接、文章摘要、案例研究等）保存到 research/[slug]/sources.md"
 )
 ```
 
-Example:
+示例：
 ```
 task(
     subagent_type="researcher",
-    description="Research the current state of AI agents in 2025. Save findings to research/ai-agents-2025.md"
+    description="研究 2025 年 AI 代理的现状。将研究结果保存到 research/ai-agents-2025.md。将搜索到的有价值的素材（如链接、文章摘要、案例研究等）保存到 research/ai-agents-2025/sources.md"
 )
 ```
 
-3. After research completes, read the findings file before writing
+3. 研究完成后，检查以下文件：
+   - `research/[slug].md` - 整理后的研究结论
+   - `research/[slug]/sources.md` - 有价值的原始素材和参考资源（便于后期核实）
+4. 在开始写作前阅读两个文件，确保内容准确性
 
-## Output Structure (Required)
+## 输出结构（必需）
 
-**Every blog post MUST have both a post AND a cover image:**
+**每篇博客文章必须同时包含文章和封面图：**
 
 ```
 blogs/
 └── <slug>/
-    ├── post.md        # The blog post content
-    └── hero.png       # REQUIRED: Generated cover image
+    ├── post.md        # 博客文章内容
+    └── hero.png       # 必需：生成的封面图
 ```
 
-Example: A post about "AI Agents in 2025" → `blogs/ai-agents-2025/`
+示例：关于"2025 年 AI 代理"的文章 → `blogs/ai-agents-2025/`
 
-**You MUST complete both steps:**
-1. Write the post to `blogs/<slug>/post.md`
-2. Generate a cover image using `generate_image` and save to `blogs/<slug>/hero.png`
+**你必须完成两个步骤：**
+1. 将文章写入 `blogs/<slug>/post.md`
+2. 使用 `generate_image` 生成封面图并保存到 `blogs/<slug>/hero.png`
 
-**A blog post is NOT complete without its cover image.**
+**没有封面图的博客文章是不完整的。**
 
-## Blog Post Structure
+## 博客文章结构
 
-Every blog post should follow this structure:
+每篇博客文章应该遵循以下结构：
 
-### 1. Hook (Opening)
-- Start with a compelling question, statistic, or statement
-- Make the reader want to continue
-- Keep it to 2-3 sentences
+### 1. 开头（吸引注意）
+- 以引人注目的问题、统计数据或陈述开始
+- 让读者想要继续阅读
+- 控制在 2-3 句话
 
-### 2. Context (The Problem)
-- Explain why this topic matters
-- Describe the problem or opportunity
-- Connect to the reader's experience
+### 2. 背景（问题）
+- 解释为什么这个主题很重要
+- 描述问题或机会
+- 与读者的经历建立联系
 
-### 3. Main Content (The Solution)
-- Break into 3-5 main sections with H2 headers
-- Each section covers one key point
-- Include code examples, diagrams, or screenshots where helpful
-- Use bullet points for lists
+### 3. 主要内容（解决方案）
+- 分为 3-5 个主要部分，使用二级标题
+- 每个部分涵盖一个关键点
+- 在适当位置包含代码示例、图表或截图
+- 列表使用项目符号
 
-### 4. Practical Application
-- Show how to apply the concepts
-- Include step-by-step instructions if applicable
-- Provide code snippets or templates
+### 4. 实际应用
+- 展示如何应用这些概念
+- 如果适用，包含分步说明
+- 提供代码片段或模板
 
-### 5. Conclusion & CTA
-- Summarize key takeaways (3 bullets max)
-- End with a clear call-to-action
-- Link to related resources
+### 5. 结论与行动号召
+- 总结主要要点（最多 3 个项目符号）
+- 以清晰的行动号召结束
+- 链接到相关资源
 
-## Cover Image Generation
+## 封面图生成
 
-After writing the post, generate a cover image using the `generate_cover` tool:
+撰写文章后，使用 `generate_cover` 工具生成封面图：
 
 ```
-generate_cover(prompt="A detailed description of the image...", slug="your-blog-slug")
+generate_cover(prompt="详细的图片描述...", slug="your-blog-slug")
 ```
 
-The tool saves the image to `blogs/<slug>/hero.png`.
+该工具会将图片保存到 `blogs/<slug>/hero.png`。
 
-### Writing Effective Image Prompts
+### 编写有效的图片提示词
 
-Structure your prompt with these elements:
+用以下元素构建你的提示词：
 
-1. **Subject**: What is the main focus? Be specific and concrete.
-2. **Style**: Art direction (minimalist, isometric, flat design, 3D render, watercolor, etc.)
-3. **Composition**: How elements are arranged (centered, rule of thirds, symmetrical)
-4. **Color palette**: Specific colors or mood (warm earth tones, cool blues and purples, high contrast)
-5. **Lighting/Atmosphere**: Soft diffused light, dramatic shadows, golden hour, neon glow
-6. **Technical details**: Aspect ratio considerations, negative space for text overlay
+1. **主题**：主要焦点是什么？要具体和清晰。
+2. **风格**：艺术方向（极简主义、等距、平面设计、3D 渲染、水彩等）
+3. **构图**：元素如何排列（居中、三分法、对称）
+4. **色彩搭配**：具体的颜色或氛围（温暖的地球色调、冷色调蓝紫色、高对比度）
+5. **光线/氛围**：柔和的漫反射光、戏剧性阴影、黄金时刻、霓虹灯辉光
+6. **技术细节**：宽高比考虑、为文本覆盖留出负空间
 
-### Example Prompts
+### 示例提示词
 
-**For a technical blog post:**
+**对于技术博客文章：**
 ```
-Isometric 3D illustration of interconnected glowing cubes representing AI agents, each cube has subtle circuit patterns. Cubes connected by luminous data streams. Deep navy background (#0a192f) with electric blue (#64ffda) and soft purple (#c792ea) accents. Clean minimal style, lots of negative space at top for title. Professional tech aesthetic.
-```
-
-**For a tutorial/how-to:**
-```
-Clean flat illustration of hands typing on a keyboard with abstract code symbols floating upward, transforming into lightbulbs and gears. Warm gradient background from soft coral to light peach. Friendly, approachable style. Centered composition with space for text overlay.
+等距 3D 插画，显示相互连接的发光立方体代表 AI 代理，每个立方体都有细微的电路图案。立方体由发光的数据流连接。深海蓝背景 (#0a192f)，带有电蓝 (#64ffda) 和柔和紫色 (#c792ea) 的强调色。简洁的极限风格，顶部留有大量负空间用于放置标题。专业的科技美感。
 ```
 
-**For thought leadership:**
+**对于教程/使用指南：**
 ```
-Abstract visualization of a human silhouette profile merging with geometric neural network patterns. Split composition - organic watercolor texture on left transitioning to clean vector lines on right. Muted sage green and warm terracotta color scheme. Contemplative, forward-thinking mood.
+简洁的平面插画，展示手在键盘上打字，抽象的代码符号向上浮动，变成灯泡和齿轮。从柔和的珊瑚色到浅桃色的温暖渐变背景。友好、易接近的风格。居中的构图，为文本覆盖留出空间。
 ```
 
-## SEO Considerations
+**对于思想领导力文章：**
+```
+抽象的可视化表达，人形剪影与几何神经网络图案融合。分离式构图 - 左侧有机水彩纹理逐渐过渡到右侧的简洁矢量线条。柔和的鼠尾草绿和温暖的赤陶色配色方案。沉思、前瞻性的氛围。
+```
 
-- Include the main keyword in the title and first paragraph
-- Use the keyword naturally 3-5 times throughout
-- Keep the title under 60 characters
-- Write a meta description (150-160 characters)
+## SEO 考虑事项
 
-## Quality Checklist
+- 在标题和第一段中包含主关键词
+- 在整个文章中自然使用关键词 3-5 次
+- 保持标题在 60 字符以下
+- 编写元描述（150-160 字符）
 
-Before finishing:
-- [ ] Post saved to `blogs/<slug>/post.md`
-- [ ] Hero image generated at `blogs/<slug>/hero.png`
-- [ ] Hook grabs attention in first 2 sentences
-- [ ] Each section has a clear purpose
-- [ ] Conclusion summarizes key points
-- [ ] CTA tells reader what to do next
+## 质量检查清单
+
+完成前检查以下项目：
+- [ ] 研究文件已保存到 `research/<slug>.md`
+- [ ] 素材源文件已保存到 `research/<slug>/sources.md`（包含有价值的链接和摘要）
+- [ ] 已核实研究内容的准确性
+- [ ] 文章已保存到 `blogs/<slug>/post.md`
+- [ ] 封面图已生成到 `blogs/<slug>/hero.png`
+- [ ] 开头在前 2 句话中吸引注意力
+- [ ] 每个部分都有明确的目的
+- [ ] 结论总结了关键点
+- [ ] 行动号召告诉读者接下来要做什么

@@ -1,185 +1,185 @@
 ---
 name: social-media
-description: Drafts engaging social media posts, writes hooks, suggests hashtags, creates thread structures, and generates companion images. Use when the user asks to write a LinkedIn post, tweet, Twitter/X thread, social media caption, social post, or repurpose content for social platforms.
+description: 撰写引人入胜的社交媒体文章，编写吸引人的开头、建议主题标签、创建话题线结构并生成配图。当用户要求撰写 LinkedIn 帖子、推文、Twitter/X 话题线、社交媒体文案或为社交平台改编内容时使用。
 ---
 
-# Social Media Content Skill
+# Social Media Content Skills
 
-## Research First (Required)
+## 首先进行研究（必需）
 
-**Before writing any social media content, you MUST delegate research:**
+**撰写任何社交媒体内容之前，你必须先进行研究：**
 
-1. Use the `task` tool with `subagent_type: "researcher"`
-2. In the description, specify BOTH the topic AND where to save:
+1. 使用 `task` 工具，设置 `subagent_type: "researcher"`
+2. 在描述中同时指定主题和保存位置：
 
 ```
 task(
     subagent_type="researcher",
-    description="Research [TOPIC]. Save findings to research/[slug].md"
+    description="研究 [主题]。将研究结果保存到 research/[slug].md"
 )
 ```
 
-Example:
+示例：
 ```
 task(
     subagent_type="researcher",
-    description="Research renewable energy trends in 2025. Save findings to research/renewable-energy.md"
+    description="研究 2025 年可再生能源发展趋势。将研究结果保存到 research/renewable-energy.md"
 )
 ```
 
-3. After research completes, read the findings file before writing
+3. 研究完成后，在开始写作前阅读研究文件
 
-## Output Structure (Required)
+## 输出结构（必需）
 
-**Every social media post MUST have both content AND an image:**
+**每篇社交媒体文章必须同时包含内容和配图：**
 
-**LinkedIn posts:**
+**LinkedIn 帖子：**
 ```
 linkedin/
 └── <slug>/
-    ├── post.md        # The post content
-    └── image.png      # REQUIRED: Generated visual
+    ├── post.md        # 帖子内容
+    └── image.png      # 必需：生成的配图
 ```
 
-**Twitter/X threads:**
+**Twitter/X 话题线：**
 ```
 tweets/
 └── <slug>/
-    ├── thread.md      # The thread content
-    └── image.png      # REQUIRED: Generated visual
+    ├── thread.md      # 话题线内容
+    └── image.png      # 必需：生成的配图
 ```
 
-Example: A LinkedIn post about "prompt engineering" → `linkedin/prompt-engineering/`
+示例：关于"提示工程"的 LinkedIn 帖子 → `linkedin/prompt-engineering/`
 
-**You MUST complete both steps:**
-1. Write the content to the appropriate path
-2. Generate an image using `generate_image` and save alongside the post
+**你必须完成两个步骤：**
+1. 将内容写到相应的路径
+2. 使用 `generate_image` 生成配图并保存在帖子旁边
 
-**A social media post is NOT complete without its image.**
+**没有配图的社交媒体文章是不完整的。**
 
-## Platform Guidelines
+## 平台指南
 
 ### LinkedIn
 
-**Format:**
-- 1,300 character limit (show more after ~210 chars)
-- First line is crucial - make it hook
-- Use line breaks for readability
-- 3-5 hashtags at the end
+**格式：**
+- 1,300 字符限制（210 字符后显示"展开"）
+- 首行至关重要 - 要有吸引力
+- 使用换行符提高可读性
+- 末尾添加 3-5 个主题标签
 
-**Tone:**
-- Professional but personal
-- Share insights and learnings
-- Ask questions to drive engagement
-- Use "I" and share experiences
+**语气：**
+- 专业但不失人味
+- 分享见解和学习心得
+- 用问题驱动互动
+- 使用第一人称，分享个人经历
 
-**Structure:**
+**结构：**
 ```
-[Hook - 1 compelling line]
+[开头 - 一句引人入胜的话]
 
-[Empty line]
+[空行]
 
-[Context - why this matters]
+[背景 - 为什么这很重要]
 
-[Empty line]
+[空行]
 
-[Main insight - 2-3 short paragraphs]
+[核心观点 - 2-3 个简短段落]
 
-[Empty line]
+[空行]
 
-[Call to action or question]
+[行动号召或问题]
 
-#hashtag1 #hashtag2 #hashtag3
+#标签1 #标签2 #标签3
 ```
 
 ### Twitter/X
 
-**Format:**
-- 280 character limit per tweet
-- Threads for longer content (use 1/🧵 format)
-- No more than 2 hashtags per tweet
+**格式：**
+- 每条推文 280 字符限制
+- 长内容使用话题线（格式：1/🧵）
+- 每条推文最多 2 个主题标签
 
-**Thread Structure:**
+**话题线结构：**
 ```
-1/🧵 [Hook - the main insight]
+1/🧵 [开头 - 核心观点]
 
-2/ [Supporting point 1]
+2/ [支持点 1]
 
-3/ [Supporting point 2]
+3/ [支持点 2]
 
-4/ [Example or evidence]
+4/ [案例或证据]
 
-5/ [Conclusion + CTA]
-```
-
-## Image Generation
-
-Every social media post needs an eye-catching image. Use the `generate_social_image` tool:
-
-```
-generate_social_image(prompt="A detailed description...", platform="linkedin", slug="your-post-slug")
+5/ [总结 + 行动号召]
 ```
 
-The tool saves the image to `<platform>/<slug>/image.png`.
+## 图片生成
 
-### Social Image Best Practices
+每篇社交媒体文章都需要一张醒目的配图。使用 `generate_social_image` 工具：
 
-Social images need to work at small sizes in crowded feeds:
-- **Bold, simple compositions** - one clear focal point
-- **High contrast** - stands out when scrolling
-- **No text in image** - too small to read, platforms add their own
-- **Square or 4:5 ratio** - works across platforms
-
-### Writing Effective Prompts
-
-Include these elements:
-
-1. **Single focal point**: One clear subject, not a busy scene
-2. **Bold style**: Vibrant colors, strong shapes, high contrast
-3. **Simple background**: Solid color, gradient, or subtle texture
-4. **Mood/energy**: Match the post tone (inspiring, urgent, thoughtful)
-
-### Example Prompts
-
-**For an insight/tip post:**
 ```
-Single glowing lightbulb floating against a deep purple gradient background, lightbulb made of interconnected golden geometric lines, rays of soft light emanating outward. Minimal, striking, high contrast. Square composition.
+generate_social_image(prompt="详细描述...", platform="linkedin", slug="your-post-slug")
 ```
 
-**For announcements/news:**
+该工具会将图片保存到 `<platform>/<slug>/image.png`。
+
+### 社交媒体配图最佳实践
+
+社交媒体配图需要在拥挤的信息流中脱颖而出：
+- **大胆、简洁的构图** - 只有一个清晰的焦点
+- **高对比度** - 滚动时能引起注意
+- **图片中不含文字** - 文字太小，社交平台会自动添加
+- **正方形或 4:5 比例** - 适配各个平台
+
+### 编写有效的提示词
+
+包含以下元素：
+
+1. **单一焦点**：一个清晰的主体，不是繁忙的场景
+2. **大胆风格**：生动的色彩、强烈的形状、高对比度
+3. **简洁背景**：纯色、渐变或细微纹理
+4. **情绪/能量**：与帖子风格相匹配（启发、紧迫、思考）
+
+### 示例提示词
+
+**对于洞察/技巧类帖子：**
 ```
-Abstract rocket ship made of colorful geometric shapes launching upward with a trail of particles. Bright coral and teal color scheme against clean white background. Energetic, celebratory mood. Bold flat illustration style.
+单个发光的灯泡飘浮在深紫色渐变背景上，灯泡由相互连接的金色几何线条组成，柔和的光线从中心向外辐射。极简主义、醒目、高对比度。正方形构图。
 ```
 
-**For thought-provoking content:**
+**对于公告/新闻类：**
 ```
-Two overlapping translucent circles, one blue one orange, creating a glowing intersection in the center. Represents collaboration or intersection of ideas. Dark charcoal background, soft ethereal glow. Minimalist and contemplative.
+用彩色几何形状组成的抽象火箭船向上发射，留下粒子轨迹。明亮的珊瑚色和青绿色配色，干净的白色背景。充满活力、庆祝感十足。大胆的平面插画风格。
 ```
 
-## Content Types
+**对于引人深思的内容：**
+```
+两个重叠的半透明圆形，一个蓝色一个橙色，在中心形成发光的交集。代表协作或思想的交集。深灰色背景，柔和的光晕效果。极简主义和沉思的氛围。
+```
 
-### Announcement Posts
-- Lead with the news
-- Explain the impact
-- Include link or next step
+## 内容类型
 
-### Insight Posts
-- Share one specific learning
-- Explain the context briefly
-- Make it actionable
+### 公告类帖子
+- 首先发布新闻
+- 解释其影响
+- 包含链接或后续步骤
 
-### Question Posts
-- Ask a genuine question
-- Provide your take first
-- Keep it focused on one topic
+### 洞察类帖子
+- 分享一项具体的学习心得
+- 简要解释背景
+- 使内容可操作
 
-## Quality Checklist
+### 问题类帖子
+- 提出真实的问题
+- 先提供你的观点
+- 保持焦点在一个话题上
 
-Before finishing:
-- [ ] Post saved to `linkedin/<slug>/post.md` or `tweets/<slug>/thread.md`
-- [ ] Image generated alongside the post
-- [ ] First line hooks attention
-- [ ] Content fits platform limits
-- [ ] Tone matches platform norms
-- [ ] Has clear CTA or question
-- [ ] Hashtags are relevant (not generic)
+## 质量检查清单
+
+完成前检查以下项目：
+- [ ] 帖子已保存到 `linkedin/<slug>/post.md` 或 `tweets/<slug>/thread.md`
+- [ ] 配图已在帖子旁生成
+- [ ] 首行具有吸引力
+- [ ] 内容符合平台字数限制
+- [ ] 语气符合平台风格
+- [ ] 包含明确的行动号召或问题
+- [ ] 主题标签相关（不是通用标签）
