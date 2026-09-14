@@ -23,6 +23,10 @@ from pathlib import Path
 from typing import Literal
 
 import yaml
+from dotenv import load_dotenv
+
+# 加载 .env 文件中的环境变量
+load_dotenv()
 
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 from langchain_core.tools import tool
@@ -32,12 +36,18 @@ from rich.markdown import Markdown
 from rich.panel import Panel
 from rich.spinner import Spinner
 from rich.text import Text
-
+from langchain_openai import ChatOpenAI
 from deepagents import create_deep_agent
 from deepagents.backends import FilesystemBackend
 
 EXAMPLE_DIR = Path(__file__).parent
 console = Console()
+
+
+model = ChatOpenAI(
+    base_url="https://openrouter.ai/api/v1",
+    model="~deepseek/deepseek-v4-flash-latest",
+    api_key=os.getenv("OPENAI_API_KEY"))
 
 
 # Web search tool for the researcher subagent
@@ -166,11 +176,12 @@ def load_subagents(config_path: Path) -> list:
 def create_content_writer():
     """Create a content writer agent configured by filesystem files."""
     return create_deep_agent(
+        model=model,
         memory=["./AGENTS.md"],           # Loaded by MemoryMiddleware
         skills=["./skills/"],             # Loaded by SkillsMiddleware
         tools=[generate_cover, generate_social_image],  # Image generation
         subagents=load_subagents(EXAMPLE_DIR / "subagents.yaml"),  # Custom helper
-        backend=FilesystemBackend(root_dir=EXAMPLE_DIR),
+        backend=FilesystemBackend(root_dir=EXAMPLE_DIR, virtual_mode=True),
     )
 
 

@@ -267,3 +267,5 @@ node_modules/
 
 # Generated at build time by libs/code/hatch_build.py (stamps the release commit)
 libs/code/deepagents_code/_build_info.py
+examples/deep_research/.workbuddy/
+examples/deep_research/article_assets/
