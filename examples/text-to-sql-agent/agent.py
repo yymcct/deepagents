@@ -10,7 +10,7 @@ from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from langchain_community.utilities import SQLDatabase
 from rich.console import Console
 from rich.panel import Panel
-
+from langchain_openai import ChatOpenAI
 # Load environment variables
 load_dotenv()
 
@@ -28,11 +28,18 @@ def create_sql_deep_agent():
     db = SQLDatabase.from_uri(f"sqlite:///{db_path}", sample_rows_in_table_info=3)
 
     # Initialize Claude Sonnet 4.5 for toolkit initialization
-    model = ChatAnthropic(model="claude-sonnet-4-5-20250929", temperature=0)
+    #model = ChatAnthropic(model="claude-sonnet-4-5-20250929", temperature=0)
+    model = ChatOpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        model="~deepseek/deepseek-v4-flash-latest",
+        api_key=os.getenv("OPENAI_API_KEY"))
 
     # Create SQL toolkit and get tools
     toolkit = SQLDatabaseToolkit(db=db, llm=model)
     sql_tools = toolkit.get_tools()
+    console.print("[bold]SQL tools:[/bold]")
+    for tool in sql_tools:
+        console.print(f"- [cyan]{tool.name}[/cyan]: {tool.description}")
 
     # Create the Deep Agent with all parameters
     agent = create_deep_agent(
