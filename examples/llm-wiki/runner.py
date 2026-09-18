@@ -6,9 +6,11 @@ from collections.abc import Sequence
 
 from helpers import WikiError, parse_config, run
 
+from dotenv import load_dotenv
 
 def main(argv: Sequence[str] | None = None) -> int:
     """Run the LLM wiki CLI."""
+    load_dotenv()
     try:
         config = parse_config(argv)
         run_result = run(config)

@@ -269,3 +269,4 @@ node_modules/
 libs/code/deepagents_code/_build_info.py
 examples/deep_research/.workbuddy/
 examples/deep_research/article_assets/
+examples/llm-wiki/wikis/

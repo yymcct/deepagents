@@ -233,6 +233,7 @@ def _ensure_hub_command_support(binary: str) -> None:
         [binary, "hub", "--help"],
         capture_output=True,
         text=True,
+        encoding="utf-8",
         check=False,
     )
     if check.returncode == 0:
@@ -265,7 +266,11 @@ def _run_langsmith_cli(args: Sequence[str]) -> subprocess.CompletedProcess[str]:
     cmd = Path(binary).name
 
     result = subprocess.run(
-        [binary, *args], capture_output=True, text=True, check=False
+        [binary, *args],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        check=False,
     )  # noqa: S603
     if result.returncode == 0:
         return result

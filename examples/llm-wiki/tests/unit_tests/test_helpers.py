@@ -121,6 +121,33 @@ def test_ensure_hub_command_support_raises_for_incompatible_cli(
         helpers._ensure_hub_command_support("/usr/local/bin/langsmith")
 
 
+def test_run_langsmith_cli_decodes_output_as_utf8(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Decode UTF-8 CLI output independently of the Windows locale."""
+
+    monkeypatch.setattr(
+        helpers, "_resolve_langsmith_binary", lambda: "C:/bin/langsmith.exe"
+    )
+    monkeypatch.setattr(helpers, "_ensure_hub_command_support", lambda _binary: None)
+
+    def fake_run(
+        args: list[str], **kwargs: object
+    ) -> subprocess.CompletedProcess[str]:
+        encoding = kwargs.get("encoding", "gbk")
+        assert isinstance(encoding, str)
+        stdout = '{"description":"LLM wiki—internal"}'.encode().decode(encoding)
+        return subprocess.CompletedProcess(
+            args=args, returncode=0, stdout=stdout, stderr=""
+        )
+
+    monkeypatch.setattr(helpers.subprocess, "run", fake_run)
+
+    result = helpers._run_langsmith_cli(["api", "/api/v1/repos/example"])
+
+    assert result.stdout == '{"description":"LLM wiki—internal"}'
+
+
 def test_ensure_mode_prerequisites_requires_api_key_for_ingest(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
