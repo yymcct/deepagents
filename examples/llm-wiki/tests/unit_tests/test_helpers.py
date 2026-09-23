@@ -9,6 +9,7 @@ import sys
 import tempfile
 from collections.abc import Callable
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -165,6 +166,42 @@ def test_ensure_mode_prerequisites_allows_init_without_api_key(
     monkeypatch.delenv("LANGSMITH_API_KEY", raising=False)
 
     helpers._ensure_mode_prerequisites("init")
+
+
+def test_create_langsmith_sandbox_uses_created_snapshot_id(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Boot from the created snapshot ID instead of assuming a `latest` tag."""
+    import langsmith.sandbox
+
+    create_sandbox_kwargs: dict[str, object] = {}
+
+    class FakeSandboxClient:
+        def __init__(self, *, api_key: str) -> None:
+            assert api_key == "test-key"
+
+        def list_snapshots(self, *, name_contains: str) -> list[object]:
+            assert name_contains == "deepagents-wiki"
+            return []
+
+        def create_snapshot(self, **kwargs: object) -> object:
+            assert kwargs["name"] == "deepagents-wiki"
+            return SimpleNamespace(id="snapshot-id")
+
+        def create_sandbox(self, **kwargs: object) -> object:
+            create_sandbox_kwargs.update(kwargs)
+            return SimpleNamespace(name="sandbox-name")
+
+        def delete_sandbox(self, name: str) -> None:
+            assert name == "sandbox-name"
+
+    monkeypatch.setenv("LANGSMITH_API_KEY", "test-key")
+    monkeypatch.setattr(langsmith.sandbox, "SandboxClient", FakeSandboxClient)
+
+    with helpers._create_langsmith_sandbox_backend():
+        pass
+
+    assert create_sandbox_kwargs == {"snapshot_id": "snapshot-id"}
 
 
 def test_parse_config_accepts_repo_owner_inputs() -> None:

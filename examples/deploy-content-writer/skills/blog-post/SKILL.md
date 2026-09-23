@@ -1,47 +1,47 @@
 ---
 name: blog-post
-description: Write structured long-form blog posts with research, SEO optimization, and cover image generation.
+description: 撰写结构化长篇博客文章，包含调研、SEO 优化和封面图生成。
 ---
 
-# Blog Post Writing Skill
+# 博客文章写作技能
 
-## Research First (Required)
+## 先调研（必做）
 
-Before writing any blog post, delegate research:
-1. Use the `task` tool with `subagent_type: "researcher"`
-2. Specify both the topic AND where to save findings
+在撰写任何博客文章前，先委托调研：
+1. 使用 `task` 工具，并设置 `subagent_type: "researcher"`
+2. 同时指定主题以及调研结果的保存位置
 
-## Blog Post Structure
+## 博客文章结构
 
-Every blog post should follow this structure:
+每篇博客文章都应遵循以下结构：
 
-### 1. Hook (Opening)
-- Start with a compelling question, statistic, or statement
-- Keep it to 2-3 sentences
+### 1. 开场钩子
+- 以一个引人入胜的问题、统计数据或观点开头
+- 控制在 2-3 句话内
 
-### 2. Context (The Problem)
-- Explain why this topic matters
-- Connect to the reader's experience
+### 2. 背景与问题
+- 解释为什么这个主题重要
+- 将其与读者的实际经验联系起来
 
-### 3. Main Content (3-5 sections)
-- Each section covers one key point with an H2 header
-- Include code examples where helpful
-- Use bullet points for lists of 3+ items
+### 3. 正文内容（3-5 个部分）
+- 每个部分围绕一个关键观点展开，并使用 H2 标题
+- 必要时加入代码示例
+- 当列表项达到 3 项或更多时使用项目符号
 
-### 4. Practical Application
-- Show how to apply the concepts
-- Include step-by-step instructions or code snippets
+### 4. 实际应用
+- 展示如何应用这些概念
+- 包含分步说明或代码片段
 
-### 5. Conclusion & CTA
-- Summarize key takeaways (3 bullets max)
-- End with a clear call-to-action
+### 5. 结论与行动呼吁
+- 总结关键收获（最多 3 个要点）
+- 以清晰的行动呼吁结尾
 
-## Output
+## 输出
 
-Save the blog post to `blogs/<slug>/post.md`.
+将博客文章保存到 `blogs/<slug>/post.md`。
 
-## SEO Considerations
+## SEO 考虑
 
-- Include the main keyword in the title and first paragraph
-- Keep the title under 60 characters
-- Write a meta description (150-160 characters)
+- 在标题和第一段中包含核心关键词
+- 标题长度控制在 60 字以内
+- 编写 meta description（150-160 字符）

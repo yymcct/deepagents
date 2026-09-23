@@ -597,17 +597,22 @@ def _create_langsmith_sandbox_backend() -> Iterator[SandboxBackendProtocol]:
 
     client = SandboxClient(api_key=env_key)
     snapshots = client.list_snapshots(name_contains=resolved_snapshot)
-    has_ready_snapshot = any(
-        snap.name == resolved_snapshot and snap.status == "ready" for snap in snapshots
+    snapshot = next(
+        (
+            snap
+            for snap in snapshots
+            if snap.name == resolved_snapshot and snap.status == "ready"
+        ),
+        None,
     )
-    if not has_ready_snapshot:
-        client.create_snapshot(
+    if snapshot is None:
+        snapshot = client.create_snapshot(
             name=resolved_snapshot,
             docker_image=docker_image,
             fs_capacity_bytes=fs_capacity,
         )
 
-    sandbox = client.create_sandbox(snapshot_name=resolved_snapshot)
+    sandbox = client.create_sandbox(snapshot_id=snapshot.id)
     try:
         yield LangSmithSandbox(sandbox=sandbox)
     finally:
@@ -652,7 +657,12 @@ def _run_agent_mode(
 def _run_agent_apply_mode(
     workspace_dir: Path, topic: str, prompt: str, model: str | None
 ) -> str:
+    from langchain_openai import ChatOpenAI
     """Run a mutating agent operation against wiki files."""
+    model = ChatOpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        model="~deepseek/deepseek-v4-flash-latest",
+        api_key=os.getenv("OPENAI_API_KEY"))
     return _run_agent_mode(
         workspace_dir,
         topic,

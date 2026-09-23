@@ -6,6 +6,7 @@ requires-python = ">=3.11"
 dependencies = [
     "deepagents>=0.6.12",
     "dotenv>=0.9.9",
+    "langchain-openai>=1.6.2",
     "langsmith[sandbox]>=0.9.3",
 ]
 

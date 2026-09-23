@@ -1,5 +1,3 @@
-# Content Preferences
+# 内容偏好
 
-No preferences set yet. The agent will update this file as it learns
-about the user's preferred topics, tone adjustments, and formatting
-choices.
+目前还没有设置偏好。代理会在了解用户偏好的主题、语气调整和格式选择后更新此文件。

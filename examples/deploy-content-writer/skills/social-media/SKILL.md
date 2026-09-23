@@ -1,37 +1,37 @@
 ---
 name: social-media
-description: Create social media content including Twitter/X threads, LinkedIn posts, and short-form updates.
+description: 创建社交媒体内容，包括 Twitter/X 线程、LinkedIn 发布文案和短内容更新。
 ---
 
-# Social Media Content Skill
+# 社交媒体内容技能
 
-## Formats
+## 格式
 
-### Twitter/X Thread
-- Hook tweet: compelling question or bold statement (< 280 chars)
-- 3-7 follow-up tweets expanding on the topic
-- Final tweet with CTA or key takeaway
-- Use line breaks for readability
+### Twitter/X 线程
+- 开头推文：引人注目的问题或大胆表述（少于 280 字）
+- 3-7 条后续推文，扩展主题内容
+- 最后一条推文应包含 CTA 或关键结论
+- 使用换行提升可读性
 
-### LinkedIn Post
-- Opening hook (first 2 lines visible before "see more")
-- 3-5 short paragraphs with key insights
-- End with a question to drive engagement
-- 1,300 character target length
+### LinkedIn 发布文案
+- 开场钩子（前两行在“see more”之前可见）
+- 3-5 段简短段落，传达关键见解
+- 结尾提出一个问题以提高互动
+- 目标长度约 1,300 字符
 
-### Short-form Update
-- Single paragraph announcement or insight
-- Link to longer content if available
-- Under 280 characters for cross-platform use
+### 短内容更新
+- 单段公告或观点
+- 如有长文，可附链接
+- 适合跨平台使用，长度控制在 280 字以内
 
-## Guidelines
+## 指南
 
-- Write in first person for LinkedIn, third person for company accounts
-- Include 2-3 relevant hashtags (not more)
-- Adapt tone: LinkedIn is more professional, Twitter is more conversational
-- Every post should provide standalone value — don't just tease
-- Use concrete numbers and results over vague claims
+- LinkedIn 使用第一人称，企业账号使用第三人称
+- 包含 2-3 个相关话题标签（不要过多）
+- 调整语气：LinkedIn 更专业，Twitter 更口语化
+- 每篇内容都应独立提供价值 —— 不要只做预告
+- 使用具体数字和结果，而不是模糊表述
 
-## Output
+## 输出
 
-Save content to `social/<platform>/<slug>.md` (e.g., `social/twitter/ai-agents-thread.md`).
+将内容保存到 `social/<platform>/<slug>.md`（例如：`social/twitter/ai-agents-thread.md`）。
